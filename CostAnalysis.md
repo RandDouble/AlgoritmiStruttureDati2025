@@ -17,14 +17,17 @@ Il problema è così formulato:
 
 La soluzione adottata per risolvere il problema dello zaino ha la seguente forma:
 
-```
-nr_of_objects N
-target_weight W
-Array Memory[N , W] ; Assume all values of Memory initially equals to -1
-Array Values[I] ; Values of each object in knapsack
-Array Weigths[I] ; Weigth of each object in knapsack
+```python
+N : nr_of_objects
+W : target_weight 
+Memory[N , W] : Array # Assume all values of Memory initially equals to -1
+Values[I] : Array # Values of each object in knapsack
+Weigths[I] : Array # Weigth of each object in knapsack
 
-def knapsack_solver(nr_of_considered_objects j, current_target_weight w):
+def knapsack_solver(
+    j : nr_of_considered_objects,
+    w :  current_target_weight
+):
     if j == 0 or w == 0:
         Memory[j, w] = 0
         return
@@ -41,7 +44,7 @@ def knapsack_solver(nr_of_considered_objects j, current_target_weight w):
 
 knapsack_solver(N, W)
 
-solution is Memory[N, W]
+# solution is Memory[N, W]
 ```
 
 ## Dimostrazione correttezza
