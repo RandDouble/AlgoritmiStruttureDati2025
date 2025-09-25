@@ -44,6 +44,17 @@ knapsack_solver(N, W)
 solution is Memory[N, W]
 ```
 
+## Dimostrazione correttezza
+
+La dimostrazione procede con ragionamento induttivo:
+
+- Caso in cui il numero di oggetti considerati sia zero, o il peso limite sia nullo, in questo caso il valore contenuto nello zaino è nullo.
+- Nello step ennesimo, in cui il peso limite non sia nullo, si valuta il peso dell'oggetto ennesimo, se questo supera il peso limite, non può essere aggiunto,
+  pertanto la soluzione al sottoproblema è uguale al risultato del sottoproblema in cui non viene considerato l'oggetto attuale.
+  Nel caso opposto la soluzione al sottoproblema è il massimo tra il sottoproblema senza considerare l'oggetto attuale,
+  o il sottoproblema in cui si ha un peso limite pari al peso limite attuale meno il peso dell'oggetto considerato, e a cui viene aggiunto il valore del primo oggetto.
+- Per ipotesi induttiva i sottoproblemi sono calcolati correttamente usando la medesima procedura, pertanto anche per il problema posto la soluzione è ottimale.
+
 ## Analisi del Costo temporale
 
 Il problema dello zaino è un problema NP completo, pertanto qualunque soluzione esatta avrà un costo temporale esponenziale.
@@ -57,7 +68,22 @@ partendo nel caso base, in cui il peso sopportato dallo zaino è nullo, o non si
 Il problema di ordine successivo, in cui si considera un elemento aggiuntivo o si ha un peso sopportato non nullo,
 è costruito considerando un elemento e valutando se questo rispetta i vincoli di peso, se la condizione non si verifica,
 allora la soluzione al problema è uguale al caso di ordine inferiore, altrimenti si considera l'aggiunta dell'elemento.
-Ma siccome l'elemento precedente è già stato calcolato, allora il numero di chiamate da effettuare della funzione si riduce a $O(NW)$.
+
+Si immagini il problema come un albero, per cui alla radice (livello i = 1) si ha la soluzione ricercata, ovvero la funzione con argomento $(N,W)$,
+ad ogni livello inferiore dell'albero si considera un elemento in meno, pare chiaro fin da subito che il numero massimo di livelli pertanto sia $N$,
+il numero di nodi presenti al livello i è pari alle possibili distinte combinazioni di peso ottenute prendendo $W$ e sottraendogli il peso degli oggetti dall'indice $N$
+fino all'oggetto $ N - i $, avendo però peso non negativo, soluzione con peso limite congruente costruiscono un problema analogo.
+Nel caso peggiore, ovvero in cui tutti gli oggetti abbiano peso unitario, i nodi di un livello sono proprio $ i $,
+fintanto che il peso risultante è positivo, dopodichè è $W$. Questa condizione di saturazione si raggiunge quando $i = W$.
+Quindi il numero totale dei nodi da valutare è:
+
+$$
+\sum_{i=1}^{W-1} (i) + \sum_{i = W}^N W\\
+\frac{1}{2} W (W - 1) + (N - W) W\\
+N W - \frac{1}{2}W(W - 1)
+$$
+
+Pertanto si dimostra che il costo temporale è $O(NW)$
 
 Se non si fosse usata la programmazione dinamica, il numero di chiamate da effettuare sarebbe stata $O(2^N)$,
 infatti sarebbe sempre necessario calcolare l'elemento precedente fino a raggiungere il caso base,

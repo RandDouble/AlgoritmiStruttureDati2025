@@ -35,9 +35,8 @@ void test_iterative_stack(std::size_t nr_of_elements, RNG &rng, PDF &pdf)
     return;
 }
 
-
 template <std::uniform_random_bit_generator RNG, typename PDF>
-    requires std::invocable<PDF, RNG &>
+    requires std::invocable<PDF, RNG &>\
 void test_recursion(std::size_t nr_of_elements, RNG &rng, PDF &pdf)
 {
     std::vector<Elements> elements(nr_of_elements);
@@ -62,4 +61,3 @@ void test_recursion(std::size_t nr_of_elements, RNG &rng, PDF &pdf)
 
     return;
 }
-
